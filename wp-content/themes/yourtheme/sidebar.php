@@ -1,17 +1,15 @@
-<!-- Sidebar display is controlled in this file. Multiple sidebars can be set up in functions.php, and contents of sidebar widgets are set up from the WordPress wp-admin panel. -->
+<!-- sidebar -->
+<aside class="sidebar" role="complementary">
 
-<?php
-/**
- * The template for the sidebar containing the main widget area
- *
- * @package WordPress
- * @subpackage Your Theme
- * @since yourtheme 1.0
- */
-?>
+	<?php get_template_part('searchform'); ?>
 
-<?php if ( is_active_sidebar( 'sidebar-1' )  ) : ?>
-	<aside id="secondary" class="sidebar widget-area" role="complementary">
-		<?php dynamic_sidebar( 'sidebar-1' ); ?>
-	</aside><!-- .sidebar .widget-area -->
-<?php endif; ?>
+	<div class="sidebar-widget">
+		<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('widget-area-1')) ?>
+	</div>
+
+	<div class="sidebar-widget">
+		<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('widget-area-2')) ?>
+	</div>
+
+</aside>
+<!-- /sidebar -->

@@ -1,102 +1,50 @@
-
-<!-- global files that contains header and navigation also contains html code -->
-<?php
-/**
- * The template for displaying the header
- *
- * Displays all of the head element and everything up until the "site-content" div.
- *
- * @package WordPress
- * @subpackage Your_Theme
- * @since Your Theme 1.0
- */
-
-?><!DOCTYPE html>
+<!doctype html>
 <html <?php language_attributes(); ?> class="no-js">
-<head>
-    <meta charset="<?php bloginfo( 'charset' ); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="profile" href="http://gmpg.org/xfn/11">
-    <?php if ( is_singular() && pings_open( get_queried_object() ) ) : ?>
-    <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-    <?php endif; ?>
-    <?php wp_head(); ?>
-</head>
+	<head>
+		<meta charset="<?php bloginfo('charset'); ?>">
+		<title><?php wp_title(''); ?><?php if(wp_title('', false)) { echo ' :'; } ?> <?php bloginfo('name'); ?></title>
 
-<body <?php body_class(); ?>>
-<div id="page" class="site">
-    <div class="site-inner">
-        <a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'yourtheme' ); ?></a>
+		<link href="//www.google-analytics.com" rel="dns-prefetch">
+        <link href="<?php echo get_template_directory_uri(); ?>/img/icons/favicon.ico" rel="shortcut icon">
+        <link href="<?php echo get_template_directory_uri(); ?>/img/icons/touch.png" rel="apple-touch-icon-precomposed">
 
-        <header id="masthead" class="site-header" role="banner">
-            <div class="site-header-main">
-                <div class="site-branding">
-                    <?php yourtheme_the_custom_logo(); ?>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="<?php bloginfo('description'); ?>">
 
-                    <?php if ( is_front_page() && is_home() ) : ?>
-                        <h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-                    <?php else : ?>
-                        <p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-                    <?php endif;
+		<?php wp_head(); ?>
+		<script>
+        // conditionizr.com
+        // configure environment tests
+        conditionizr.config({
+            assets: '<?php echo get_template_directory_uri(); ?>',
+            tests: {}
+        });
+        </script>
 
-                    $description = get_bloginfo( 'description', 'display' );
-                    if ( $description || is_customize_preview() ) : ?>
-                        <p class="site-description"><?php echo $description; ?></p>
-                    <?php endif; ?>
-                </div><!-- .site-branding -->
+	</head>
+	<body <?php body_class(); ?>>
 
-                <?php if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) ) : ?>
-                    <button id="menu-toggle" class="menu-toggle"><?php _e( 'Menu', 'yourtheme' ); ?></button>
+		<!-- wrapper -->
+		<div class="wrapper">
 
-                    <div id="site-header-menu" class="site-header-menu">
-                        <?php if ( has_nav_menu( 'primary' ) ) : ?>
-                            <nav id="site-navigation" class="main-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Primary Menu', 'yourtheme' ); ?>">
-                                <?php
-                                    wp_nav_menu( array(
-                                        'theme_location' => 'primary',
-                                        'menu_class'     => 'primary-menu',
-                                     ) );
-                                ?>
-                            </nav><!-- .main-navigation -->
-                        <?php endif; ?>
+			<!-- header -->
+			<header class="header clear" role="banner">
 
-                        <?php if ( has_nav_menu( 'social' ) ) : ?>
-                            <nav id="social-navigation" class="social-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Social Links Menu', 'yourtheme' ); ?>">
-                                <?php
-                                    wp_nav_menu( array(
-                                        'theme_location' => 'social',
-                                        'menu_class'     => 'social-links-menu',
-                                        'depth'          => 1,
-                                        'link_before'    => '<span class="screen-reader-text">',
-                                        'link_after'     => '</span>',
-                                    ) );
-                                ?>
-                            </nav><!-- .social-navigation -->
-                        <?php endif; ?>
-                    </div><!-- .site-header-menu -->
-                <?php endif; ?>
-            </div><!-- .site-header-main -->
+					<!-- logo -->
+					<div class="logo">
+						<a href="<?php echo home_url(); ?>">
+							<!-- svg logo - toddmotto.com/mastering-svg-use-for-a-retina-web-fallbacks-with-png-script -->
+							<img src="<?php echo get_template_directory_uri(); ?>/img/logo.svg" alt="Logo" class="logo-img">
+						</a>
+					</div>
+					<!-- /logo -->
 
-            <?php if ( get_header_image() ) : ?>
-                <?php
-                    /**
-                     * Filter the default yourtheme custom header sizes attribute.
-                     *
-                     * @since Your Theme 1.0
-                     *
-                     * @param string $custom_header_sizes sizes attribute
-                     * for Custom Header. Default '(max-width: 709px) 85vw,
-                     * (max-width: 909px) 81vw, (max-width: 1362px) 88vw, 1200px'.
-                     */
-                    $custom_header_sizes = apply_filters( 'yourtheme_custom_header_sizes', '(max-width: 709px) 85vw, (max-width: 909px) 81vw, (max-width: 1362px) 88vw, 1200px' );
-                ?>
-                <div class="header-image">
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-                        <img src="<?php header_image(); ?>" srcset="<?php echo esc_attr( wp_get_attachment_image_srcset( get_custom_header()->attachment_id ) ); ?>" sizes="<?php echo esc_attr( $custom_header_sizes ); ?>" width="<?php echo esc_attr( get_custom_header()->width ); ?>" height="<?php echo esc_attr( get_custom_header()->height ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>">
-                    </a>
-                </div><!-- .header-image -->
-            <?php endif; // End header image check. ?>
-        </header><!-- .site-header -->
+					<!-- nav -->
+					<nav class="nav" role="navigation">
+						<?php html5blank_nav(); ?>
+					</nav>
+					<!-- /nav -->
 
-        <div id="content" class="site-content">
-
+			</header>
+			<!-- /header -->

@@ -1,57 +1,67 @@
-<!-- The display of individual posts in your WordPress theme is controlled by a little file called single.php. It contains a loop that queries just one post and displays it. You can specify if you want sidebars (and which you want), if you want it to look different than the other pages on the site. -->
+<?php get_header(); ?>
 
+	<main role="main">
+	<!-- section -->
+	<section>
 
-<?php
-/**
- * The template for displaying all single posts and attachments
- *
- * @package WordPress
- * @subpackage Your_Theme
- * @since Your Theme 1.0
- */
+	<?php if (have_posts()): while (have_posts()) : the_post(); ?>
 
-get_header(); ?>
+		<!-- article -->
+		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-<div id="primary" class="content-area">
-	<main id="main" class="site-main" role="main">
-		<?php
-		// Start the loop.
-		while ( have_posts() ) : the_post();
+			<!-- post thumbnail -->
+			<?php if ( has_post_thumbnail()) : // Check if Thumbnail exists ?>
+				<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+					<?php the_post_thumbnail(); // Fullsize image for the single post ?>
+				</a>
+			<?php endif; ?>
+			<!-- /post thumbnail -->
 
-			// Include the single post content template.
-			get_template_part( 'template-parts/content', 'single' );
+			<!-- post title -->
+			<h1>
+				<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
+			</h1>
+			<!-- /post title -->
 
-			// If comments are open or we have at least one comment, load up the comment template.
-			if ( comments_open() || get_comments_number() ) {
-				comments_template();
-			}
+			<!-- post details -->
+			<span class="date"><?php the_time('F j, Y'); ?> <?php the_time('g:i a'); ?></span>
+			<span class="author"><?php _e( 'Published by', 'html5blank' ); ?> <?php the_author_posts_link(); ?></span>
+			<span class="comments"><?php if (comments_open( get_the_ID() ) ) comments_popup_link( __( 'Leave your thoughts', 'html5blank' ), __( '1 Comment', 'html5blank' ), __( '% Comments', 'html5blank' )); ?></span>
+			<!-- /post details -->
 
-			if ( is_singular( 'attachment' ) ) {
-				// Parent post navigation.
-				the_post_navigation( array(
-					'prev_text' => _x( '<span class="meta-nav">Published in</span><span class="post-title">%title</span>', 'Parent post link', 'yourtheme' ),
-				) );
-			} elseif ( is_singular( 'post' ) ) {
-				// Previous/next post navigation.
-				the_post_navigation( array(
-					'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Next', 'yourtheme' ) . '</span> ' .
-						'<span class="screen-reader-text">' . __( 'Next post:', 'yourtheme' ) . '</span> ' .
-						'<span class="post-title">%title</span>',
-					'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Previous', 'yourtheme' ) . '</span> ' .
-						'<span class="screen-reader-text">' . __( 'Previous post:', 'yourtheme' ) . '</span> ' .
-						'<span class="post-title">%title</span>',
-				) );
-			}
+			<?php the_content(); // Dynamic Content ?>
 
-			// End of the loop.
-		endwhile;
-		?>
+			<?php the_tags( __( 'Tags: ', 'html5blank' ), ', ', '<br>'); // Separated by commas with a line break at the end ?>
 
-	</main><!-- .site-main -->
+			<p><?php _e( 'Categorised in: ', 'html5blank' ); the_category(', '); // Separated by commas ?></p>
 
-	<?php get_sidebar( 'content-bottom' ); ?>
+			<p><?php _e( 'This post was written by ', 'html5blank' ); the_author(); ?></p>
 
-</div><!-- .content-area -->
+			<?php edit_post_link(); // Always handy to have Edit Post Links available ?>
+
+			<?php comments_template(); ?>
+
+		</article>
+		<!-- /article -->
+
+	<?php endwhile; ?>
+
+	<?php else: ?>
+
+		<!-- article -->
+		<article>
+
+			<h1><?php _e( 'Sorry, nothing to display.', 'html5blank' ); ?></h1>
+
+		</article>
+		<!-- /article -->
+
+	<?php endif; ?>
+
+	</section>
+	<!-- /section -->
+	</main>
 
 <?php get_sidebar(); ?>
+
 <?php get_footer(); ?>

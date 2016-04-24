@@ -1,17 +1,6 @@
-<?php
-/**
- * Template for displaying search forms in Your Theme
- *
- * @package WordPress
- * @subpackage Your_Theme
- * @since Your Theme 1.0
- */
-?>
-
-<form role="search" method="get" class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-	<label>
-		<span class="screen-reader-text"><?php echo _x( 'Search for:', 'label', 'yourtheme' ); ?></span>
-		<input type="search" class="search-field" placeholder="<?php echo esc_attr_x( 'Search &hellip;', 'placeholder', 'yourtheme' ); ?>" value="<?php echo get_search_query(); ?>" name="s" />
-	</label>
-	<button type="submit" class="search-submit"><span class="screen-reader-text"><?php echo _x( 'Search', 'submit button', 'yourtheme' ); ?></span></button>
+<!-- search -->
+<form class="search" method="get" action="<?php echo home_url(); ?>" role="search">
+	<input class="search-input" type="search" name="s" placeholder="<?php _e( 'To search, type and hit enter.', 'html5blank' ); ?>">
+	<button class="search-submit" type="submit" role="button"><?php _e( 'Search', 'html5blank' ); ?></button>
 </form>
+<!-- /search -->
